@@ -83,14 +83,23 @@ class GiffyDriver extends Selenium2Driver
     }
     private function highlight($xpath)
     {
-        $oldStylesList = $this->getElementStyleArray($xpath);
-        $this->addStylesToElement($xpath, [
-            'outline' => '1px solid rgb(136, 255, 136)',
-            'backgroundColor' => 'yellow',
-        ]);
-
+        $styleChanged = false;
+        try {
+            $oldStylesList = $this->getElementStyleArray($xpath);
+            $this->addStylesToElement($xpath, [
+                'outline' => '1px solid rgb(136, 255, 136)',
+                'backgroundColor' => 'yellow',
+            ]);
+            $styleChanged = true;
+        } catch (\Exception $exc) {
+        }
         $this->saveScreenshot();
-        $this->resetStyle($xpath, $oldStylesList);
+        if ($styleChanged === true) {
+            try {
+                $this->resetStyle($xpath, $oldStylesList);
+            } catch (\Exception $exc) {
+            }
+        }
     }
     private function getElementStyleArray($xpath)
     {
