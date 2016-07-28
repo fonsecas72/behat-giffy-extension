@@ -42,15 +42,20 @@ class GiffyDriver extends Selenium2Driver
         $gc = new \GifCreator\GifCreator();
         $gc->create($frames, $durations);
         $gifBinary = $gc->getGif();
-        $gifFilename = $this->getScreenshotDestination().DIRECTORY_SEPARATOR.sprintf('%03d', $this->i).'_giffied.gif';
+        $gifFilename = $this->getScreenshotDestination().DIRECTORY_SEPARATOR.$this->giffyScenarioShotsPath.'.gif';
         file_put_contents($gifFilename, $gifBinary);
         echo "| Gif captured ~> ".$gifFilename.PHP_EOL.PHP_EOL;
+
+        foreach ($this->screenshotsTaked as $screenshot) {
+            unlink($screenshot);
+        }
     }
 
     public function resetCounter()
     {
         $this->c = 0;
         $this->i++;
+        $this->screenshotsTaked = [];
     }
     public function setScenarioPath($path)
     {
@@ -75,11 +80,14 @@ class GiffyDriver extends Selenium2Driver
     {
         return 'shot_'.sprintf('%03d', $scenarioId).'_'.sprintf('%03d', $stepId).'.png';
     }
+
+    private $screenshotsTaked = [];
+
     private function saveScreenshot()
     {
         $screenshotFilename = $this->getScreenshotDestination().DIRECTORY_SEPARATOR.$this->getShotName();
         file_put_contents($screenshotFilename, parent::getScreenshot());
-        error_log(PHP_EOL."| Screenshot captured ~> ".$screenshotFilename.PHP_EOL);
+        $this->screenshotsTaked[] = $screenshotFilename;
     }
     private function highlight($xpath)
     {
@@ -158,7 +166,7 @@ class GiffyDriver extends Selenium2Driver
         return parent::getValue($xpath);
     }
 
-    
+
     public function setValue($xpath, $value)
     {
         $this->saveScreenshot();
