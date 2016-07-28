@@ -42,7 +42,7 @@ class GiffyDriver extends Selenium2Driver
         $gc = new \GifCreator\GifCreator();
         $gc->create($frames, $durations);
         $gifBinary = $gc->getGif();
-        $gifFilename = $this->getScreenshotDestination().DIRECTORY_SEPARATOR.$this->giffyScenarioShotsPath.'.gif';
+        $gifFilename = $this->getScreenshotDestination().DIRECTORY_SEPARATOR.$this->giffyScenarioShotsPath.$this->i.'.gif';
         file_put_contents($gifFilename, $gifBinary);
         echo "| Gif captured ~> ".$gifFilename.PHP_EOL.PHP_EOL;
 
