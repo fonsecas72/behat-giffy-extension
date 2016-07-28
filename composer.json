@@ -1,0 +1,23 @@
+{
+    "name": "fonsecas72/behat-giffy-extension",
+    "type": "behat-extension",
+    "description": "Takes screenshots for every browser interaction made",
+    "keywords": ["debug", "screenshot"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Hugo Fonseca",
+            "email": "hdtfonseca@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Fonsecas72\\GiffyExtension\\": "src/"
+        }
+    },
+    "require-dev": {
+    },
+    "require": {
+        "sybio/gif-creator": "^1.0"
+    }
+}
