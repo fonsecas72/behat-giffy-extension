@@ -10,7 +10,13 @@ You can also use as your default session (javascript maybe) but be aware that it
 
 **It works on top of selenium2**
 
-##Example:
+##How to use
+
+Add it as composer dependency
+
+`composer require fonsecas72/behat-giffy-extension`
+
+Update you behat.yml
 
 ```
 default:
