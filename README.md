@@ -10,4 +10,34 @@ You can also use as your default session (javascript maybe) but be aware that it
 
 **It works on top of selenium2**
 
+##Example:
 
+```
+default:
+    extensions:
+        Fonsecas72\GiffyExtension:
+            screenshot_path: build/gifs
+            use_scenario_folder: true
+        Behat\MinkExtension:
+            base_url:             http://dev.lh.qem.io/app_test.php
+            files_path:           '%paths.base%/features/Fixture'
+            browser_name:         firefox
+            default_session:      selenium2
+            javascript_session:   selenium2
+            sessions:
+                selenium2:
+                    selenium2: ~
+                giffy:
+                    giffy: ~
+giffy:
+    extensions:
+            Behat\MinkExtension:
+                default_session:      giffy
+                javascript_session:   giffy
+```
+
+Then you could do:
+
+`behat -p giffy`
+
+Or you can append the `@giffy` tag to your feature/scenario.
