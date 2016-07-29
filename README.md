@@ -19,8 +19,8 @@ default:
             screenshot_path: build/gifs
             use_scenario_folder: true
         Behat\MinkExtension:
-            base_url:             http://dev.lh.qem.io/app_test.php
-            files_path:           '%paths.base%/features/Fixture'
+            base_url:             http://link.php
+            files_path:           'features'
             browser_name:         firefox
             default_session:      selenium2
             javascript_session:   selenium2
