@@ -29,8 +29,9 @@ class GiffyDriver extends Selenium2Driver
             if ($index === 0 || $index === 1 || $index === 2) {
                 continue;
             }
-            $frames[] = $this->getScreenshotDestination().DIRECTORY_SEPARATOR.$this->getSerializedName($this->i, $index);
-
+            $imgPath = $this->getScreenshotDestination().'/'.$this->getSerializedName($this->i, $index);
+            $this->convertPNGto8bitPNG($imgPath, $imgPath);
+            $frames[] = $imgPath;
             if ($this->c - 1 === $index) {
                 $durations[] = 150;
                 continue;
@@ -89,6 +90,27 @@ class GiffyDriver extends Selenium2Driver
         file_put_contents($screenshotFilename, parent::getScreenshot());
         $this->screenshotsTaked[] = $screenshotFilename;
     }
+
+    /**
+     * from http://stackoverflow.com/questions/13768034/php-reducing-all-image-types-quality
+     * @param string $sourcePath
+     * @param string $destPath
+     */
+    public function convertPNGto8bitPNG($sourcePath, $destPath)
+    {
+        $srcimage = imagecreatefrompng($sourcePath);
+        list($width, $height) = getimagesize($sourcePath);
+        $img = imagecreatetruecolor($width, $height);
+        $bga = imagecolorallocatealpha($img, 0, 0, 0, 127);
+        imagecolortransparent($img, $bga);
+        imagefill($img, 0, 0, $bga);
+        imagecopy($img, $srcimage, 0, 0, 0, 0, $width, $height);
+        imagetruecolortopalette($img, false, 255);
+        imagesavealpha($img, true);
+        imagepng($img, $destPath);
+        imagedestroy($img);
+    }
+
     private function highlight($xpath)
     {
         $styleChanged = false;
